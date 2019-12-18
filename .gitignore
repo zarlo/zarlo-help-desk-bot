@@ -126,3 +126,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+debug.ps1
+debug.bat
+debug.sh

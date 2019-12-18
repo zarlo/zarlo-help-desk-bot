@@ -1,8 +1,5 @@
-from .core import client
-from app.commands import register_commands
+from .core import bot
 
 import os
 
-register_commands()
-
-client.run('your token here')
+bot.run(os.environ.get('BOT_TOKEN', None))
