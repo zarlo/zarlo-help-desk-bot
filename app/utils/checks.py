@@ -1,13 +1,32 @@
 from discord.ext import commands
+from app.modules.core.Guild import Guild
 import discord.utils
 
-def is_dev_check(message):
-    return message.author.id == '109843425402056704'
+def is_dev_check(author):
+    return author.id in [109843425402056704, 474638819866705960]
 
 def is_dev():
-    return commands.check(lambda ctx: is_dev_check(ctx.message))
+    return commands.check(lambda ctx: is_dev_check(ctx.message.author))
 
-def check_permissions(ctx, perms):
+
+def has_modules(module):
+    return commands.check(lambda ctx: has_modules_check(ctx, module))
+
+def has_modules_check(ctx, module):
+    try:
+        m = Guild.objects.get(guild_id=ctx.guild.id)
+        if module in m.modules:
+            return True
+    except:
+        pass
+    
+    return False
+    
+
+def permissions(perms):
+    return commands.check(lambda ctx: permissions_check(ctx, perms))
+
+def permissions_check(ctx, perms):
     msg = ctx.message
     if is_dev_check(msg):
         return True
@@ -17,8 +36,11 @@ def check_permissions(ctx, perms):
     resolved = ch.permissions_for(author)
     return all(getattr(resolved, name, None) == value for name, value in perms.items())
 
-def role_or_permissions(ctx, check, **perms):
-    if check_permissions(ctx, perms):
+def role_or_permissions(check, **perms):
+    return commands.check(lambda ctx: role_or_permissions_check(ctx, check, perms))
+
+def role_or_permissions_check(ctx, check, perms):
+    if permissions_check(ctx, perms):
         return True
 
     ch = ctx.message.channel

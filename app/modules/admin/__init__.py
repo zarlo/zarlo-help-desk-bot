@@ -1,42 +1,29 @@
-from app.utils.checks import is_dev
+from app.utils.checks import is_dev, is_dev_check
+from discord.ext import commands
+from discord.ext.commands import Cog
+from discord.member import Member
+from app.utils.checks import role_or_permissions
 
-class Admin:
+class admin(Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.group(name='admin')
+    @role_or_permissions("admin")
+    async def admin(self, ctx):
+        if ctx.invoked_subcommand is None:
+            await ctx.send('\n base admin command')
+
+    @admin.command()
+    async def nick(self, ctx, *, nick_name: str):
+        me = ctx.message.guild.me
+        await self.bot.change_nickname(me, nick_name)
+        await ctx.send('\n bot nick name is now {0}'.format(nick_name))
         
-    @commands.command(hidden=True)
-    @checks.is_dev()
-    async def load(self, *, module : str):
-        """Loads a module."""
-        try:
-            self.bot.load_extension('app.modules.{0}'.format(module))
-        except Exception as e:
-            await self.bot.say('\nModule could not be loaded.')
-            await self.bot.say('{}: {}'.format(type(e).__name__, e))
-        else:
-            await self.bot.say('\nModule has been loaded.')
 
-    @commands.command(hidden=True)
-    @checks.is_dev()
-    async def unload(self, *, module : str):
-        """Unloads a module."""
-        try:
-            self.bot.unload_extension(module)
-        except Exception as e:
-            await self.bot.say('\nModule could not be unloaded.')
-            await self.bot.say('{}: {}'.format(type(e).__name__, e))
-        else:
-            await self.bot.say('\nModule has been unloaded.')
 
-    @commands.command(name='reload', hidden=True)
-    @checks.is_dev()
-    async def _reload(self, *, module : str):
-        """Reloads a module."""
-        try:
-            self.bot.unload_extension(module)
-            self.bot.load_extension('app.modules.{0}'.format(module))
-        except Exception as e:
-            await self.bot.say('\nModule could not be reloaded.')
-            await self.bot.say('{}: {}'.format(type(e).__name__, e))
-        else:
-            await self.bot.say('\nModule has been reloaded.')
+def setup(bot):
+    bot.add_cog(admin(bot))
+    
+def teardown(bot):
+    bot.remove_cog('admin')
