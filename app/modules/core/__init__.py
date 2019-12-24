@@ -73,9 +73,7 @@ class Core(Cog):
                     await ctx.send('{}: {}'.format(type(e).__name__, e))
                 else:
                     await ctx.send('\n{0} has been reloaded.'.format(item))
-
         else:
-            
             try:
                 self.bot.reload_extension('app.modules.{0}'.format(module))
             except Exception as e:

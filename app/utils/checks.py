@@ -40,17 +40,17 @@ def role_or_permissions(check, **perms):
     return commands.check(lambda ctx: role_or_permissions_check(ctx, check, perms))
 
 def role_or_permissions_check(ctx, check, perms):
+    
+    ch = ctx.message.channel
+    if ch.is_private:
+        return False
 
     if permissions_check(ctx, perms):
         return True
 
-    ch = ctx.message.channel
-    author = ctx.message.author
-    if ch.is_private:
-        return False
-
     if ctx.guild.owner.id is ctx.message.author.id:
         return True
 
+    author = ctx.message.author
     role = discord.utils.find(check, author.roles)
     return role is not None
