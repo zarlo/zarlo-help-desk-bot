@@ -9,6 +9,6 @@ class Guild(Document):
     guild_id       = IntField()
     nick_name      = StringField(default="")
     command_prefix = StringField(default="!")
-    modules        = ListField(ReferenceField(Modules))
+    modules        = ListField(StringField())
     
     

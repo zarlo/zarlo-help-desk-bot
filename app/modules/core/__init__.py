@@ -2,7 +2,8 @@ from app.utils.checks import is_dev, is_dev_check, role_or_permissions
 from discord.ext import commands
 from discord.ext.commands import Cog
 from discord.member import Member
-from app.modules.core.Modules import Modules
+from app.modules.core.modules import Modules
+from app.modules.core.guild import Guild
 
 class Core(Cog):
     def __init__(self, bot):
@@ -21,26 +22,18 @@ class Core(Cog):
     @commands.command()
     @role_or_permissions("admin owner")
     async def load(self, ctx, *, module : str):
-        """Loads a module."""
-        try:
-            self.bot.load_extension('app.modules.{0}'.format(module))
-        except Exception as e:
-            await ctx.send('\nModule could not be loaded.')
-            await ctx.send('{}: {}'.format(type(e).__name__, e))
-        else:
-            await ctx.send('\nModule has been loaded.')
-
+        for item in Modules.objects:
+            if item.name is module:  
+                Guild.objects(guild_id=ctx.guild.id).update(push__modules=module)
+                await ctx.send('\n{0} loaded.'.format(module))
+                return
+        await ctx.send('\n{0} is not loaded on the bot.'.format(module))
+        
     @commands.command()
     @role_or_permissions("admin owner")
     async def unload(self, ctx, *, module : str):
-        """Unloads a module."""
-        try:
-            self.bot.unload_extension('app.modules.{0}'.format(module))
-        except Exception as e:
-            await ctx.send('\nModule could not be unloaded.')
-            await ctx.send('{}: {}'.format(type(e).__name__, e))
-        else:
-            await ctx.send('\nModule has been unloaded.')        
+        Guild.objects(guild_id=ctx.guild.id).update(pull__modules=module)
+        await ctx.send('\n{0} unloaded.'.format(module))
         
     
     @commands.command(hidden=True)
