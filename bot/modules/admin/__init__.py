@@ -1,8 +1,8 @@
-from app.utils.checks import is_dev, is_dev_check
+from bot.utils.checks import is_dev, is_dev_check
 from discord.ext import commands
 from discord.ext.commands import Cog
 from discord.member import Member
-from app.utils.checks import role_or_permissions
+from bot.utils.checks import role_or_permissions
 
 class admin(Cog):
     def __init__(self, bot):

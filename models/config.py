@@ -2,7 +2,7 @@ from mongoengine import StringField, BooleanField, Document, EmbeddedDocumentLis
 from mongoengine import EmbeddedDocument, DateTimeField, IntField, ListField, ReferenceField
 import datetime
 
-from app.modules.core.Guild import Guild
+from modules.guild import Guild
 
 class ChannelConfig(EmbeddedDocument):
     channel_id         = IntField()

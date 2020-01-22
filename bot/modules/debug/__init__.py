@@ -1,4 +1,4 @@
-from app.utils.checks import is_dev, is_dev_check
+from bot.utils.checks import is_dev, is_dev_check
 from discord.ext import commands
 from discord.ext.commands import Cog
 from discord.member import Member

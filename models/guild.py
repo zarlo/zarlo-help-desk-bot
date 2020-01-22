@@ -1,6 +1,6 @@
 from mongoengine import StringField, BooleanField, Document, ReferenceField
 from mongoengine import EmbeddedDocument, DateTimeField, IntField, ListField
-from .Modules import Modules
+from .modules import Modules
 import datetime
 
 from enum import IntEnum

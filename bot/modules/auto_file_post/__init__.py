@@ -1,4 +1,4 @@
-from app.utils.checks import is_dev, is_dev_check
+from bot.utils.checks import is_dev, is_dev_check
 from discord.ext import commands
 from discord.ext.commands import Cog
 from discord.member import Member
@@ -12,8 +12,8 @@ class auto_file_post(Cog):
     async def load_core(self, ctx):
         """Reloads a module."""
         try:
-            self.bot.unload_extension('app.modules.core')
-            self.bot.load_extension('app.modules.core')
+            self.bot.unload_extension('bot.modules.core')
+            self.bot.load_extension('bot.modules.core')
         except Exception as e:
             await ctx.send('\nCore Module could not be reloaded.')
             await ctx.send('{}: {}'.format(type(e).__name__, e))

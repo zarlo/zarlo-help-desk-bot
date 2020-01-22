@@ -1,6 +1,6 @@
 from discord.ext import commands
 from mongoengine import connect
-from app.modules.core.Guild import Guild
+from models.guild import Guild
 import discord
 import os
     
@@ -28,5 +28,6 @@ bot = commands.Bot(command_prefix=get_prefix, description="a bot that zarlo use'
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
 
-bot.load_extension('app.modules.core')
-bot.load_extension('app.modules.reload_core')
+bot.load_extension('bot.modules.core')
+bot.load_extension('bot.modules.reload_core')
+

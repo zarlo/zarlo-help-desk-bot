@@ -1,6 +1,6 @@
 from mongoengine import StringField, BooleanField, Document, EmbeddedDocumentListField
 from mongoengine import EmbeddedDocument, DateTimeField, IntField, ListField
-from .EmbeddedChatlog import EmbeddedChatlog
+from models.embedded_chatlog import EmbeddedChatlog
 import datetime
 
 from enum import IntEnum

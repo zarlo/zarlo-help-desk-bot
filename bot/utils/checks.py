@@ -1,5 +1,5 @@
 from discord.ext import commands
-from app.modules.core.Guild import Guild
+from models.guild import Guild
 import discord.utils
 
 def is_dev_check(author):
@@ -42,8 +42,6 @@ def role_or_permissions(check, **perms):
 def role_or_permissions_check(ctx, check, perms):
     
     ch = ctx.message.channel
-    if ch.is_private:
-        return False
 
     if permissions_check(ctx, perms):
         return True
