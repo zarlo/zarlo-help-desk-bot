@@ -1,9 +1,9 @@
 from discord.ext import commands
-from models.guild import Guild
+from bot.models.core.guild import Guild
 import discord.utils
 
 def is_dev_check(author):
-    return author.id in [109843425402056704, 474638819866705960]
+    return author.id in [109843425402056704]
 
 def is_dev():
     return commands.check(lambda ctx: is_dev_check(ctx.message.author))
@@ -21,7 +21,7 @@ def has_modules_check(ctx, module):
         pass
     
     return False
-    
+
 
 def permissions(perms):
     return commands.check(lambda ctx: permissions_check(ctx, perms))
